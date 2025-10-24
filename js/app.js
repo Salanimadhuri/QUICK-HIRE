@@ -32,6 +32,10 @@ function handleClearFilters() {
     state.jobsPageState.categoryFilter = '';
     renderApp();
 }
+function handleRecruiterFilter(status) {
+    state.recruiterPageState.applicationFilterStatus = status === 'All' ? '' : status;
+    renderApp(); // This updates the state and forces the page to re-render
+}
 
 function handleApply(job) {
     const currentUser = state.authState.currentUser;
@@ -61,7 +65,9 @@ function handleApply(job) {
         timestamp: new Date().toISOString(),
         recipientEmail: currentUser.email
     });
-    
+    // Add this new function
+
+
     // Notification for the Recruiter
     const allUsers = storage.getUsers();
     const recruiter = allUsers.find(user => user.id === job.recruiterId);
@@ -287,7 +293,8 @@ function renderApp() {
         setReviewingApplication,
         handleInterviewDateChange,
         updateApplicationStatus,
-        setShortlistMode
+        setShortlistMode,
+        handleRecruiterFilter
     };
 
     // Correctly define which pages are public

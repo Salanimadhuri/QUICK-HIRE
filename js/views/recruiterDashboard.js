@@ -10,7 +10,8 @@ export function renderRecruiterDashboardContent(handlers) {
         setReviewingApplication, 
         updateApplicationStatus,
         handleRecruiterFormChange,
-        setShortlistMode
+        setShortlistMode,
+        handleRecruiterFilter
     } = handlers;
 
     const postedJobs = storage.getRecruiterJobs().filter(j => j.recruiterId === state.authState.currentUser.id);
@@ -141,7 +142,7 @@ export function renderRecruiterDashboardContent(handlers) {
         const isActive = (applicationFilterStatus === '' ? 'All' : applicationFilterStatus) === status;
         const button = createEl('button', `min-w-max px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${isActive ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-blue-50'}`);
         button.textContent = status;
-        button.onclick = () => { state.recruiterPageState.applicationFilterStatus = status === 'All' ? '' : status; handlers.onNavigate('recruiter'); /* a bit of a hack to force re-render */ };
+        button.onclick = () => { handleRecruiterFilter(status); };
         filterControls.appendChild(button);
     });
     filterDiv.appendChild(filterControls);
